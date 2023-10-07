@@ -5,14 +5,34 @@ class Student:
         self.gender = gender
         self.finished_courses = []
         self.courses_in_progress = []
-        self.grades = {}
+        self.grades =  {}
+        self.courses_attached = ()
 
+    def rate_lecture(self, lecturer, course, grade):
+        if isinstance(lecturer, Lecturer) and course in self.courses_attached and course in lecturer.lecture_in_progress:
+            if course not in lecturer.lecture_grades:
+                lecturer.lecture_grades[course] = [grade]
+            else:
+                lecturer.lecture_grades[course] += [grade]
+        else:
+            return 'Ошибка'
 
 class Mentor:
     def __init__(self, name, surname):
         self.name = name
         self.surname = surname
         self.courses_attached = []
+
+class Lecturer(Mentor):
+    def __init__(self, name, surname, gender):
+        super().__init__(name, surname)
+        self.lecture_grades = []
+        self.lecture_in_progress = []
+        self.rate_lecture = {}
+
+class Reviewer(Mentor):
+    def __init__(self, name, surname):
+        super().__init__(name, surname)
 
     def rate_hw(self, student, course, grade):
         if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
@@ -27,11 +47,24 @@ class Mentor:
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
 
-cool_mentor = Mentor('Some', 'Buddy')
-cool_mentor.courses_attached += ['Python']
+cool_reviewer = Reviewer('Some', 'Buddy')
+cool_reviewer.courses_attached += ['Python']
 
-cool_mentor.rate_hw(best_student, 'Python', 10)
-cool_mentor.rate_hw(best_student, 'Python', 10)
-cool_mentor.rate_hw(best_student, 'Python', 10)
+cool_reviewer.rate_hw(best_student, 'Python', 10)
+cool_reviewer.rate_hw(best_student, 'Python', 10)
+cool_reviewer.rate_hw(best_student, 'Python', 10)
 
+cool_lecturer = Lecturer('name', 'surname', 'rate_lecturer')
+cool_lecturer.lecture_in_progress += ['Python']
+
+best_lecturer = Lecturer('some', 'boddy', 'your_gender')
+best_lecturer.courses_attached += ['Python']
+
+best_student.rate_lecture(best_lecturer, 'Python', 10)
+best_student.rate_lecture(best_lecturer, 'Python', 10)
+best_student.rate_lecture(best_lecturer, 'Python', 10)
+
+print(best_lecturer.lecture_grades)
 print(best_student.grades)
+
+
