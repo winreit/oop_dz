@@ -202,5 +202,5 @@ print(lecturer_2.__lt__(lecturer_1))
 print(average_grade_all_students_in_course(all_students_list, 'Git'))
 print(average_grade_all_lecturers_in_course(all_lecturers_list, 'Python'))
 
-
+паврыврыпаропаоы
 
